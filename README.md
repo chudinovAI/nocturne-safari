@@ -1,30 +1,30 @@
 # Nocturne
 
-Локальное расширение Safari для тёмного режима. Использует открытый движок [Dark Reader](https://github.com/darkreader/darkreader) (MIT); это не официальное расширение Dark Reader.
+A local Safari extension for dark mode. It uses the open-source [Dark Reader](https://github.com/darkreader/darkreader) engine (MIT); this is not the official Dark Reader extension.
 
-## Установка на этом Mac
+## Installing on This Mac
 
-После сборки приложение находится в `build/Build/Products/Debug/Nocturne.app`; готовый build в исходный репозиторий не входит. Запустите его один раз. При сборке по инструкции ниже оно подписано только локальной ad-hoc подписью, не сертификатом разработчика Apple.
+After building, the application is located at `build/Build/Products/Debug/Nocturne.app`; a ready-made build is not included in the source repository. Launch it once. When built using the instructions below, it is signed only with a local ad-hoc signature, not an Apple developer certificate.
 
-1. В Safari откройте «Настройки» → «Дополнения» / «Дополнительно» и включите функции для веб-разработчиков («Show features for web developers»).
-2. В появившейся вкладке «Разработчик» включите «Разрешить неподписанные расширения» («Allow unsigned extensions»). Это снижает защиту Safari и сбрасывается после выхода из Safari. Включайте только если понимаете риск.
-3. В «Настройки» → «Расширения» включите Nocturne и разрешите ему доступ к сайтам, на которых оно должно работать. Откройте или обновите страницу; кнопка Nocturne на панели инструментов управляет режимом.
+1. In Safari, open “Settings” → “Add-ons” / “Advanced” and enable “Show features for web developers”.
+2. In the “Developer” tab that appears, enable “Allow unsigned extensions”. This reduces Safari's protection and resets after quitting Safari. Enable it only if you understand the risk.
+3. In “Settings” → “Extensions”, enable Nocturne and grant it access to the websites where it should work. Open or refresh a page; the Nocturne toolbar button controls the mode.
 
-Для некоторых новых версий Safari Apple также описывает временную установку папки `extension` через «Настройки» → «Разработчик» → «Добавить временное расширение». Перед установкой из свежей копии проекта выполните в его корне `npm ci` и `npm run build`: сгенерированный `extension/content.js` не хранится в репозитории. Временное расширение удаляется при выходе из Safari или через 24 часа. Подробнее: [инструкция Apple](https://developer.apple.com/documentation/safariservices/running-your-safari-web-extension).
+For some newer Safari versions, Apple also describes temporarily installing the `extension` folder through “Settings” → “Developer” → “Add Temporary Extension”. Before installing from a fresh copy of the project, run `npm ci` and `npm run build` in its root: the generated `extension/content.js` is not stored in the repository. The temporary extension is removed when Safari quits or after 24 hours. More details: [Apple's instructions](https://developer.apple.com/documentation/safariservices/running-your-safari-web-extension).
 
-## Управление и ограничения
+## Controls and Limitations
 
-- **Dark mode** отключает эффект везде; **This website** — для точного имени хоста, отдельно от поддоменов. Настройки сохраняются локально в `browser.storage.local`.
-- **Brightness** регулирует яркость от 50% до 150%; изменение применяется при отпускании ползунка. Переключатели обновляют уже открытые страницы, где расширение было запущено.
-- Обрабатывается только верхний документ на HTTP(S): встроенные iframe могут остаться светлыми. Служебные страницы Safari и другие защищённые страницы недоступны расширениям. Сайты со сложными стилями могут отображаться некорректно; отключите для них режим.
-- Расширению нужен доступ к содержимому посещаемых сайтов, чтобы менять их оформление, а также доступ к вкладкам для определения текущего хоста. Код интерфейса не отправляет настройки на сервер; движок может запрашивать ресурсы самих сайтов для обработки стилей.
-- Это использует библиотеку Dark Reader, но не включает все функции официального расширения, его настройки и правила совместимости для отдельных сайтов.
+- **Dark mode** disables the effect everywhere; **This website** disables it for the exact hostname, separately from subdomains. Settings are saved locally in `browser.storage.local`.
+- **Brightness** adjusts brightness from 50% to 150%; changes are applied when the slider is released. The switches update already open pages where the extension has been started.
+- Only the top-level document on HTTP(S) is processed: embedded iframes may remain light. Safari's internal pages and other protected pages are inaccessible to extensions. Sites with complex styles may display incorrectly; disable the mode for them.
+- The extension needs access to the content of visited websites to change their appearance, as well as access to tabs to identify the current host. The interface code does not send settings to a server; the engine may request resources from the websites themselves to process styles.
+- It uses the Dark Reader library but does not include all of the official extension's features, settings, and site-specific compatibility rules.
 
-## Сборка
+## Building
 
-Нужны Node.js 18 или новее, npm, Xcode 27 или новее, установленные инструменты командной строки Xcode и macOS SDK 27 или новее. В сохранённом проекте цель macOS установлена на 27.0.
+Requires Node.js 18 or newer, npm, Xcode 27 or newer, installed Xcode command-line tools, and macOS SDK 27 or newer. The saved project has a macOS deployment target of 27.0.
 
-Проект Xcode уже находится в исходниках; для обычной сборки его не нужно пересоздавать. Сгенерированный `extension/content.js` не хранится в репозитории, поэтому сначала соберите JavaScript:
+The Xcode project is already included in the source; it does not need to be recreated for a normal build. The generated `extension/content.js` is not stored in the repository, so build the JavaScript first:
 
 ```sh
 npm ci
@@ -34,6 +34,6 @@ xcodebuild -project 'Safari/Nocturne/Nocturne.xcodeproj' -scheme Nocturne \
   CODE_SIGN_STYLE=Manual CODE_SIGN_IDENTITY=- CODE_SIGNING_REQUIRED=YES build
 ```
 
-**Пересоздание проекта:** `npm run package:safari` запускает конвертер Apple и создаёт `Safari/Nocturne`. Если проект уже существует, для повторной генерации сначала потребуется сохранить изменения и вручную удалить существующий `Safari/Nocturne`. Это удалит текущий проект и внесённые в него настройки, включая ссылки на лицензии; восстановите и проверьте их после генерации. Для обычной сборки команду пересоздания не запускайте. Значки при необходимости пересоздаются командой `swift scripts/icons.swift`.
+**Recreating the project:** `npm run package:safari` runs Apple's converter and creates `Safari/Nocturne`. If the project already exists, regenerating it first requires saving your changes and manually deleting the existing `Safari/Nocturne`. This deletes the current project and its custom settings, including license references; restore and verify them after generation. Do not run the recreation command for a normal build. Icons can be regenerated if needed with `swift scripts/icons.swift`.
 
-Dark Reader и его зависимость malevic распространяются по MIT: полные уведомления находятся в `extension/DARKREADER-LICENSE.txt` и `extension/MALEVIC-LICENSE.txt` и включаются в ресурсы расширения. Сохраняйте их при распространении собранной версии.
+Dark Reader and its dependency malevic are distributed under MIT: the full notices are in `extension/DARKREADER-LICENSE.txt` and `extension/MALEVIC-LICENSE.txt` and are included in the extension's resources. Keep them when distributing a built version.
