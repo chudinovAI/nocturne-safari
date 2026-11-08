@@ -1,0 +1,21 @@
+{
+  "manifest_version": 2,
+  "name": "Nocturne",
+  "version": "1.0.0",
+  "description": "Dark mode for websites, powered by the open-source Dark Reader engine.",
+  "icons": {
+    "48": "icon-48.png",
+    "96": "icon-96.png",
+    "128": "icon-128.png"
+  },
+  "permissions": ["storage", "tabs", "http://*/*", "https://*/*"],
+  "browser_action": {
+    "default_title": "Nocturne",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "js": ["content.js"],
+    "run_at": "document_start"
+  }]
+}

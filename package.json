@@ -1,0 +1,16 @@
+{
+  "name": "nocturne-safari",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Локальное тёмное расширение Safari на движке Dark Reader",
+  "scripts": {
+    "build": "esbuild src/content.js --bundle --format=iife --target=safari15 --outfile=extension/content.js",
+    "package:safari": "npm run build && xcrun safari-web-extension-converter extension --project-location Safari --app-name Nocturne --bundle-identifier local.nocturne.Nocturne --swift --macos-only --no-open --no-prompt"
+  },
+  "dependencies": {
+    "darkreader": "4.9.134"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

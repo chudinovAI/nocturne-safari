@@ -1,0 +1,7 @@
+node_modules/
+extension/content.js
+build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+.DS_Store

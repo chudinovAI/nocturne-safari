@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nocturne</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <header><div class="moon" aria-hidden="true">◒</div><div><h1>Nocturne</h1><p>Dark mode for Safari</p></div></header>
+  <main>
+    <label class="row"><span><strong>Dark mode</strong><small>On all websites</small></span><input id="enabled" type="checkbox" role="switch"></label>
+    <label class="row"><span><strong>This website</strong><small id="host">Detecting website…</small></span><input id="site" type="checkbox" role="switch" disabled></label>
+    <label class="brightness" for="brightness"><span><strong>Brightness</strong><output id="brightness-value">100%</output></span><input id="brightness" type="range" min="50" max="150" step="5" value="100"></label>
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+  </main>
+</body>
+</html>
